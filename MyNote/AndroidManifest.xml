@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.jiangw.note"
+    android:versionCode="1"
+    android:versionName="1.0" >
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.CAMERA" />
+
+    <uses-sdk
+        android:minSdkVersion="11"
+        android:targetSdkVersion="17" />
+
+    <application
+        android:name="com.jiangw.base.BaseApplication"
+        android:allowBackup="true"
+        android:icon="@drawable/ic_launcher"
+        android:label="@string/app_name"
+        android:theme="@style/AppTheme" >
+        <!-- activity start -->
+        <activity
+            android:name="com.jiangw.note.MainActivity"
+            android:label="@string/app_name" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name="com.jiangw.note.items.EditActivity" />
+        <activity android:name="com.jiangw.note.items.ClockDialogActivity" android:theme="@style/mSlideActivityDialog"/>
+        <!-- activity end -->
+		<!-- note数据库 -->
+        <provider
+            android:name="com.jiangw.db.provider.NoteProvider"
+            android:authorities="com.jiangw.note.notes"
+            android:enabled="true"
+            android:exported="false" >
+        </provider>
+        <!-- 闹钟start -->
+		<!-- 手机开启广播 -->
+        <receiver android:name="com.jiangw.note.schedule.AlarmInitReciver" >
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+        </receiver>
+        <!-- 闹钟广播 -->
+        <receiver
+            android:name="com.jiangw.note.schedule.AlarmReceiver"
+            android:process=":remote" >
+        </receiver>
+		<!-- 闹钟提示activity -->
+        <activity
+            android:name="com.jiangw.note.items.AlarmAlertActivity"
+            android:launchMode="singleInstance" >
+        </activity>
+        <!-- 闹钟end -->
+    </application>
+
+</manifest>
